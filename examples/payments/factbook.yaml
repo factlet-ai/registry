@@ -1,5 +1,6 @@
 schema_version: v1.0
-last_updated: 2026-05-04T00:00:00Z
+last_updated: 2026-05-06T00:00:00Z
+scope: team:payments
 metadata:
   name: payments-stripe-example
   owner: payments-team
@@ -7,6 +8,11 @@ metadata:
     Sanitized example for a Stripe-based payments service. Demonstrates
     money handling rules, refund workflow constraints, idempotency,
     and one supersession showing how the team retired an old assumption.
+
+    Citation discipline (per Factlet Protocol RFC-001, targeting v0.2):
+    bare ids (e.g. `f001`) are valid INSIDE this file. External references
+    (other factbooks, prose, code) MUST use the scoped form `team:payments:f001`
+    or the shortened `payments:f001`.
 
 content:
   - id: f001
