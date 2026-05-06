@@ -12,7 +12,7 @@ A sanitized Factbook for a fictional Stripe-based payments service.
 
 ## How to use
 
-Copy `factbook.yaml` into your AI tool of choice (e.g. via [factlet.ai/getting-started](https://factlet.ai/getting-started) Prompt 2). Ask questions like:
+Copy `payments-factbook.yaml` into your AI tool of choice (e.g. via [factlet.ai/getting-started](https://factlet.ai/getting-started) Prompt 2). Ask questions like:
 
 - "Add an endpoint to refund a 6-month-old payment automatically." (Should defer to f002 and refuse auto-processing.)
 - "Store the Stripe customer ID in our user table." (Should cite f003: string, not int.)

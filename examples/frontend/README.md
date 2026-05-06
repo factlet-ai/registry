@@ -13,7 +13,7 @@ A sanitized Factbook for a React + TypeScript frontend project.
 
 ## How to use
 
-Copy `factbook.yaml` and ask:
+Copy `frontend-factbook.yaml` and ask:
 
 - "Add a global state for current user." (Should cite f001/f002 and use Zustand or TanStack, not Redux.)
 - "Build a contact form." (Should cite f006 — RHF + Zod schema.)

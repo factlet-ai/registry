@@ -10,7 +10,7 @@ Community-contributed example Factbooks for the [Factlet Protocol](https://factl
 | **React + TypeScript frontend** | [`examples/frontend`](examples/frontend) | retired-tech (Redux), a11y floor, bundle budget |
 | **ML training pipeline** | [`examples/ml-pipeline`](examples/ml-pipeline) | data lineage, eval gates, PII handling |
 
-Each directory contains `factbook.yaml` + `README.md` explaining what the example illustrates and how to use it.
+Each directory contains `<domain>-factbook.yaml` + `README.md` explaining what the example illustrates and how to use it. Filenames follow the `<scope>-factbook.yaml` convention so the project scope is visible without context.
 
 ## Contribute
 
@@ -27,7 +27,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). What's expected of a registry contributi
 Once the [reference SDK](https://github.com/factlet-ai/reference-sdk) ships, run:
 
 ```bash
-factlet validate examples/<your-domain>/factbook.yaml
+factlet validate examples/<your-domain>/<your-domain>-factbook.yaml
 ```
 
 For now, validate manually against [the schema](https://github.com/factlet-ai/spec/tree/main/schema).

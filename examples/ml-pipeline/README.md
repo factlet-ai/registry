@@ -15,7 +15,7 @@ A sanitized Factbook for an MLflow-based ML training and serving pipeline.
 
 ## How to use
 
-Copy `factbook.yaml` and ask:
+Copy `ml-pipeline-factbook.yaml` and ask:
 
 - "Train a fraud detection model and ship it to prod." (Should cite f003 — eval gates — and f006 — PII handling.)
 - "Read the user_events table from S3 directly to speed up the experiment." (Should cite f001 and refuse, propose dataset registry.)
