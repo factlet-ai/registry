@@ -17,9 +17,9 @@ The registry collects example Factbooks across domains so implementers and proto
 ## Adding a factbook
 
 1. Create a directory under `examples/<domain>/` (e.g. `examples/payments/`).
-2. Add `factbook.yaml` conforming to the v0.1 schema (see [factlet.ai/protocol](https://factlet.ai/protocol)).
+2. Add `<domain>-factbook.yaml` conforming to the v0.1 schema (see [factlet.ai/protocol](https://factlet.ai/protocol)). Filename follows the `<scope>-factbook.yaml` convention.
 3. Add `README.md` explaining: the domain, what facts are interesting, and what the example illustrates.
-4. Run the validator (once published): `factlet validate examples/<domain>/factbook.yaml`.
+4. Run the validator (once published): `factlet validate examples/<domain>/<domain>-factbook.yaml`.
 5. Open a PR.
 
 ## Review criteria
