@@ -1,5 +1,8 @@
 schema_version: v1.0
-last_updated: 2026-05-04T00:00:00Z
+profile: software-engineering
+profile_version: "0.2"
+scope: team:ml-platform
+last_updated: 2026-05-08T00:00:00Z
 metadata:
   name: ml-training-pipeline
   owner: ml-platform
@@ -8,6 +11,12 @@ metadata:
     data lineage rules, model versioning, evaluation thresholds, and
     deployment guardrails an AI would otherwise guess wrong.
 
+    Updated 2026-05-08 to declare `profile: software-engineering` and
+    annotate factlets with `phase` per RFC 0005 (v0.2 spec). ML pipelines
+    span design (architecture choices), implementation (data loading +
+    versioning code), testing (eval gates), and runtime (drift monitoring,
+    cost/queue policy) — all four phases are exercised.
+
 content:
   - id: f001
     statement: "Training data MUST be loaded via the dataset registry (datasets.load_versioned), never directly from raw S3 paths."
@@ -15,6 +24,7 @@ content:
     sources: ["docs/data-lineage.md:1", "src/datasets/registry.py:1"]
     tags: [ml, data-lineage, anti-pattern]
     scope_level: team
+    phase: implementation
 
   - id: f002
     statement: "Models are registered to MLflow with semver tags (e.g. v1.4.2), never auto-incrementing run IDs."
@@ -22,6 +32,7 @@ content:
     sources: ["docs/model-versioning.md:8", "scripts/register_model.py:30"]
     tags: [ml, versioning, mlflow]
     scope_level: team
+    phase: implementation
 
   - id: f003
     statement: "A model MUST pass evaluation thresholds (AUC >= 0.78, latency p99 < 50ms, fairness gap < 0.05) before being eligible for production."
@@ -29,6 +40,14 @@ content:
     sources: ["docs/eval-gates.md:1", "ci/promote-to-prod.sh"]
     tags: [ml, eval, deployment, compliance]
     scope_level: team
+    phase: testing
+    # RFC 0003 — imported from the ML platform team's compliance spec.
+    origination:
+      source_type: import
+      source_ref: "ml-platform-compliance-spec:v2.3"
+      authored_at: "2026-01-15T00:00:00Z"
+      authored_by: "import:compliance-spec-importer:v1.0"
+      trust_prior: 0.95
 
   - id: f004
     statement: "We use shadow deployment for 7 days minimum before traffic shift; never blue/green for new models."
@@ -36,6 +55,7 @@ content:
     sources: ["docs/deployment-strategy.md:18", "ADR-014.md"]
     tags: [ml, deployment, reliability]
     scope_level: team
+    phase: design
 
   - id: f005
     statement: "Feature store reads use the offline store for training and online store for serving; never mix the two for a given pipeline."
@@ -43,6 +63,7 @@ content:
     sources: ["docs/feature-store.md:1", "incident:2025-11-30"]
     tags: [ml, feature-store, anti-pattern]
     scope_level: team
+    phase: implementation
 
   - id: f006
     statement: "PII features MUST be hashed before reaching the training set; raw PII columns are rejected by the data ingest validator."
@@ -50,6 +71,7 @@ content:
     sources: ["docs/privacy.md:1", "src/datasets/pii_validator.py"]
     tags: [ml, privacy, compliance]
     scope_level: team
+    phase: implementation
 
   - id: f007
     statement: "GPU training jobs use the `ml-large` queue; CPU-only jobs use `ml-small`. Cross-queue submission burns budget without producing better results."
@@ -57,6 +79,7 @@ content:
     sources: ["docs/compute-queues.md:1", "incident:2026-02-10"]
     tags: [ml, infra, cost]
     scope_level: team
+    phase: runtime
 
   - id: f008
     statement: "Data drift monitoring runs daily on the previous 24h of production predictions; alerts fire on PSI > 0.2 for any feature."
@@ -64,3 +87,4 @@ content:
     sources: ["src/monitoring/drift.py:50", "docs/observability.md:30"]
     tags: [ml, monitoring, observability]
     scope_level: team
+    phase: runtime
