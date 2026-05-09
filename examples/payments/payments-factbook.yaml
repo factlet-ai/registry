@@ -1,5 +1,7 @@
 schema_version: v1.0
-last_updated: 2026-05-06T00:00:00Z
+profile: software-engineering
+profile_version: "0.2"
+last_updated: 2026-05-08T00:00:00Z
 scope: team:payments
 metadata:
   name: payments-stripe-example
@@ -9,10 +11,29 @@ metadata:
     money handling rules, refund workflow constraints, idempotency,
     and one supersession showing how the team retired an old assumption.
 
-    Citation discipline (per Factlet Protocol RFC-001, targeting v0.2):
-    bare ids (e.g. `f001`) are valid INSIDE this file. External references
-    (other factbooks, prose, code) MUST use the scoped form `team:payments:f001`
-    or the shortened `payments:f001`.
+    Updated 2026-05-08 to demonstrate spec v0.2 additions (RFCs 0002,
+    0003, 0004, 0005): file-level `profile: software-engineering`,
+    per-factlet `phase`, an `origination` block on one factlet, and a
+    `dependencies` block declaring composition against community
+    best-practice and security factbooks.
+
+    Citation discipline (per RFC-001 in v0.2): bare ids (e.g. `f001`)
+    are valid INSIDE this file. External references (other factbooks,
+    prose, code) MUST use the scoped form `team:payments:f001` or the
+    shortened `payments:f001`.
+
+# RFC 0004 — composable factbooks. Project factbook composes against
+# universal community factbooks for general best-practice + security
+# guidance. retrieval_mode `merged` (default) takes the union; the host
+# factlets and dependency factlets both contribute to retrieval.
+dependencies:
+  factbooks:
+    - id: "best-practices:python-3.12-2026"
+      source: "github.com/factlet-ai/registry/best-practices-python-3.12-2026"
+      retrieval_mode: merged
+    - id: "security:owasp-top-10-2026"
+      source: "github.com/factlet-ai/registry/security-owasp-top-10-2026"
+      retrieval_mode: merged
 
 content:
   - id: f001
@@ -21,6 +42,14 @@ content:
     sources: ["docs/payments-arch.md:42", "commit:abc123"]
     tags: [payments, architecture, stripe]
     scope_level: team
+    phase: design
+    # RFC 0003 — origination block records WHO/WHAT produced the YAML
+    # record (distinct from `sources`, which provides claim provenance).
+    origination:
+      source_type: manual
+      authored_at: "2026-04-15T10:30:00Z"
+      authored_by: "human:alice@example.com"
+      trust_prior: 1.0
 
   - id: f002
     statement: "Refunds older than 90 days require manual ops approval, never auto-processed."
@@ -28,6 +57,7 @@ content:
     sources: ["docs/refund-policy.md:8", "incident:2026-01-15"]
     tags: [payments, ops, compliance]
     scope_level: team
+    phase: design
 
   - id: f003
     statement: "Stripe customer IDs are persisted as strings; never cast to int (overflow risk)."
@@ -36,6 +66,7 @@ content:
     supersedes: ["f900"]
     tags: [payments, schema, anti-pattern]
     scope_level: team
+    phase: implementation
 
   - id: f004
     statement: "Idempotency keys for Stripe API calls use UUIDv4; format `{operation}:{uuid}`."
@@ -43,6 +74,7 @@ content:
     sources: ["src/payments/stripe_client.py:120", "docs/idempotency.md"]
     tags: [payments, stripe, reliability]
     scope_level: team
+    phase: implementation
 
   - id: f005
     statement: "All money is stored as integer cents; never as float dollars (precision)."
@@ -50,6 +82,7 @@ content:
     sources: ["docs/money-handling.md:1", "src/models/transaction.py:8"]
     tags: [payments, schema, money, anti-pattern]
     scope_level: team
+    phase: design
 
   - id: f006
     statement: "Currency conversion happens only at display time, never in storage."
@@ -57,6 +90,9 @@ content:
     sources: ["docs/money-handling.md:18", "src/utils/currency.py:1"]
     tags: [payments, money, i18n]
     scope_level: team
+    # No phase — phase-agnostic (relevant across design + implementation
+    # + runtime). Per RFC 0005 §5 recommended consumer behavior,
+    # filter_by_phase() returns this factlet in every phase-scoped query.
 
   - id: f007
     statement: "Failed Stripe webhook deliveries retry with exponential backoff up to 24h; after 24h, page on-call."
@@ -64,6 +100,7 @@ content:
     sources: ["src/payments/webhook_processor.py:200", "runbook:webhook-failure.md"]
     tags: [payments, stripe, reliability, ops]
     scope_level: team
+    phase: runtime
 
   - id: f900
     statement: "Stripe customer IDs are stored as integers."
