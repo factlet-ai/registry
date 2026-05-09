@@ -1,6 +1,7 @@
 schema_version: v1.0
 profile: software-engineering
 profile_version: "0.2"
+scope: team:web
 last_updated: 2026-05-08T00:00:00Z
 metadata:
   name: react-frontend-conventions
@@ -24,6 +25,12 @@ content:
     tags: [frontend, react, state-management]
     scope_level: team
     phase: design
+    # RFC 0003 — manual authorship by a human reviewer.
+    origination:
+      source_type: manual
+      authored_at: "2025-10-12T14:00:00Z"
+      authored_by: "human:lead@example.com"
+      trust_prior: 1.0
 
   - id: f002
     statement: "We do NOT use Redux; we explicitly retired it in 2025-Q4 in favor of TanStack Query + Zustand for local state."
@@ -72,6 +79,14 @@ content:
     tags: [frontend, performance, ci]
     scope_level: team
     phase: testing
+    # RFC 0003 — LLM-proposed (extraction tool scanned ci/ + next.config.js
+    # and surfaced this as a candidate fact; human reviewer accepted).
+    origination:
+      source_type: llm
+      source_ref: "extraction-pipeline:nightly:2026-04-22"
+      authored_at: "2026-04-22T03:15:00Z"
+      authored_by: "llm:claude-haiku-4-5"
+      trust_prior: 0.7
 
   - id: f008
     statement: "Image components MUST use `<Image>` from `next/image` with explicit width/height; never raw `<img>` for production assets."

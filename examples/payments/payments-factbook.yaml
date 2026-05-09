@@ -28,12 +28,17 @@ metadata:
 # factlets and dependency factlets both contribute to retrieval.
 dependencies:
   factbooks:
-    - id: "best-practices:python-3.12-2026"
-      source: "github.com/factlet-ai/registry/best-practices-python-3.12-2026"
-      retrieval_mode: merged
-    - id: "security:owasp-top-10-2026"
-      source: "github.com/factlet-ai/registry/security-owasp-top-10-2026"
-      retrieval_mode: merged
+    # Demo dependencies pointing at sibling examples in this registry. A
+    # real production payments factbook would compose against universal
+    # community factbooks (best-practices:python-*, security:owasp-*); those
+    # don't yet exist in factlet-ai/registry — when they ship, swap the ids
+    # below.
+    - id: "team:web"
+      source: "github.com/factlet-ai/registry/examples/frontend/frontend-factbook.yaml"
+      retrieval_mode: fallback
+    - id: "team:ml-platform"
+      source: "github.com/factlet-ai/registry/examples/ml-pipeline/ml-pipeline-factbook.yaml"
+      retrieval_mode: fallback
 
 content:
   - id: f001
